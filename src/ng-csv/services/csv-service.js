@@ -87,7 +87,7 @@ angular.module('ngCsv.services').
         });
 
         if(window.navigator.msSaveOrOpenBlob) {
-          csv = BOM+unescape(csvContent);
+          csv = unescape(csvContent);
         }else{
           csv = DATA_URI_PREFIX + csvContent;
         }
