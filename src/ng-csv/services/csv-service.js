@@ -5,7 +5,8 @@ angular.module('ngCsv.services').
   service('CSV', ['$q', function($q)  {
 
     var EOL = encodeURIComponent('\r\n');
-    var DATA_URI_PREFIX = "data:text/csv;charset=utf-8,";
+    var BOM = "%ef%bb%bf";
+    var DATA_URI_PREFIX = "data:text/csv;charset=utf-8,"+BOM;
 
     /**
      * Stringify one field

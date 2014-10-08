@@ -34,7 +34,8 @@ angular.module('ngCsv.services').
   service('CSV', ['$q', function($q)  {
 
     var EOL = encodeURIComponent('\r\n');
-    var DATA_URI_PREFIX = "data:text/csv;charset=utf-8,";
+    var BOM = "%ef%bb%bf";
+    var DATA_URI_PREFIX = "data:text/csv;charset=utf-8,"+BOM;
 
     /**
      * Stringify one field
@@ -208,8 +209,9 @@ angular.module('ngCsv.directives').
       link: function (scope, element, attrs) {
         function doClick() {
           if(window.navigator.msSaveOrOpenBlob) {
+            var BOM = "%ef%bb%bf";
             var blob = new Blob([unescape(scope.csv)],{
-                    type: "text/csv;charset=utf-8;"
+                    type: "text/csv;charset=utf-8;"+BOM
                 });
             navigator.msSaveBlob(blob, scope.getFilename());
           } else {

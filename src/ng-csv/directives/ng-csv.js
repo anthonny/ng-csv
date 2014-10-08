@@ -75,8 +75,9 @@ angular.module('ngCsv.directives').
       link: function (scope, element, attrs) {
         function doClick() {
           if(window.navigator.msSaveOrOpenBlob) {
+            var BOM = "%ef%bb%bf";
             var blob = new Blob([unescape(scope.csv)],{
-                    type: "text/csv;charset=utf-8;"
+                    type: "text/csv;charset=utf-8;"+BOM
                 });
             navigator.msSaveBlob(blob, scope.getFilename());
           } else {
