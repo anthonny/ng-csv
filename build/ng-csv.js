@@ -115,7 +115,7 @@ angular.module('ngCsv.services').
         });
 
         if(window.navigator.msSaveOrOpenBlob) {
-          csv = csvContent;
+          csv = unescape(csvContent);
         }else{
           csv = DATA_URI_PREFIX + csvContent;
         }
@@ -192,8 +192,11 @@ angular.module('ngCsv.directives').
           $scope.buildCSV = function() {
             var deferred = $q.defer();
 
+            $element.addClass($attrs.ngCsvLoadingClass || 'ng-csv-loading');
+
             CSV.stringify($scope.data(), getBuildCsvOptions()).then(function(csv) {
               $scope.csv = csv;
+              $element.removeClass($attrs.ngCsvLoadingClass || 'ng-csv-loading');
               deferred.resolve(csv);
             });
             $scope.$apply(); // Old angular support
@@ -205,7 +208,7 @@ angular.module('ngCsv.directives').
       link: function (scope, element, attrs) {
         function doClick() {
           if(window.navigator.msSaveOrOpenBlob) {
-            var blob = new Blob([scope.csv],{
+            var blob = new Blob([unescape(scope.csv)],{
                     type: "text/csv;charset=utf-8;"
                 });
             navigator.msSaveBlob(blob, scope.getFilename());

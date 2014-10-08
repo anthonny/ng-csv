@@ -75,7 +75,7 @@ angular.module('ngCsv.directives').
       link: function (scope, element, attrs) {
         function doClick() {
           if(window.navigator.msSaveOrOpenBlob) {
-            var blob = new Blob([scope.csv],{
+            var blob = new Blob([unescape(scope.csv)],{
                     type: "text/csv;charset=utf-8;"
                 });
             navigator.msSaveBlob(blob, scope.getFilename());
